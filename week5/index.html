@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script
+          src="https://code.jquery.com/jquery-3.7.1.min.js"
+          integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+          crossorigin="anonymous"></script>
+</head>
+<body>
+
+<h1>Robo Dealer</h1>
+
+  <button onclick="dealHand();">Deal Hand</button>
+
+<hr><div id="card_hand"></div>
+
+<script>
+  // Define Card object and create a deck of cards
+  function Card(value, suit) {
+      this.value = value;
+      this.suit = suit;
+  }
+
+  // Generate deck of 52 unique cards only once
+  const deck = [];
+  const suits = ['Hearts', 'Diamonds', 'Clubs', 'Spades'];
+  const values = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]; // 11 = Jack, 12 = Queen, 13 = King, 14 = Ace
+
+  suits.forEach(suit => {
+      values.forEach(value => {
+          deck.push(new Card(value, suit));
+      });
+  });
+
+  // Display card name based on its value
+  function cardName(card) {
+      let name;
+      switch (card.value) {
+          case 11: name = 'Jack'; break;
+          case 12: name = 'Queen'; break;
+          case 13: name = 'King'; break;
+          case 14: name = 'Ace'; break;
+          default: name = card.value; break;
+      }
+      return `${name} of ${card.suit}`;
+  }
+
+  // Deal a 5-card hand, avoiding duplicate cards
+  const dealHand = () => {
+      const hand = [];
+      const usedIndices = new Set();
+
+      while (hand.length < 5) {
+          const randomIndex = Math.floor(Math.random() * 52);
+          if (!usedIndices.has(randomIndex)) {
+              usedIndices.add(randomIndex);
+              hand.push(deck[randomIndex]);
+          }
+      }
+
+      // Update 'card_hand' DIV with the card names
+      const handDisplay = hand.map(card => `<p>${cardName(card)}</p>`).join('');
+      $("#card_hand").html(handDisplay);
+
+      return false; // prevent page reload
+  }
+</script>
+
+</body>
+</html>

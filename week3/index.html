@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Grades</title>
+</head>
+<body>
+    <h1>Student Grades</h1>
+    <div id="studentData"></div>
+    <div id="statistics"></div>
+
+<script>
+    const grades = "jim|25, sue|32, mary|34, ann|22, ted|28, frank|15, lisa|19, mike|30, ahn|26, vishaya|27";
+
+    // Step 1: Split the grades string into an array of student entries
+    const students = grades.split(", ");
+
+    // Initialize arrays for names and scores
+    const studentData = [];
+    const scores = [];
+
+    // Step 2: Loop through each student entry and split name and score
+    students.forEach(entry => {
+        let [name, score] = entry.split("|");
+        // Capitalize the first letter of the name
+        name = name.charAt(0).toUpperCase() + name.slice(1);
+        // Convert score from string to number
+        score = parseInt(score);
+        // Push the formatted student data and score into arrays
+        studentData.push(`${name} - ${score}`);
+        scores.push(score);
+    });
+
+    // Step 3: Display the student data
+    document.getElementById("studentData").innerHTML = studentData.join("<br>");
+
+    // Step 4: Calculate statistics
+    const totalStudents = students.length;
+    const highestScore = Math.max(...scores);
+    const lowestScore = Math.min(...scores);
+    const averageScore = (scores.reduce(findAverage)/totalStudents).toFixed(2);
+        function findAverage(total, currentValue) {
+            return (total + currentValue);
+        }
+    
+    // Step 5: Display statistics
+    document.getElementById("statistics").innerHTML = `
+        <p>Total number of students: ${totalStudents}</p>
+        <p>Highest score: ${highestScore}</p>
+        <p>Lowest score: ${lowestScore}</p>
+        <p>Average score: ${averageScore}</p>
+    `;
+
+</script>
+</body>
+</html>
