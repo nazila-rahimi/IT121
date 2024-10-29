@@ -48,13 +48,13 @@
   // Deal a 5-card hand, avoiding duplicate cards
   const dealHand = () => {
       const hand = [];
-      const usedIndices = new Set();
+      const usedCards = new Set();
 
       while (hand.length < 5) {
-          const randomIndex = Math.floor(Math.random() * 52);
-          if (!usedIndices.has(randomIndex)) {
-              usedIndices.add(randomIndex);
-              hand.push(deck[randomIndex]);
+          const randomCard = Math.floor(Math.random() * 52);
+          if (!usedCards.has(randomCard)) {
+              usedCards.add(randomCard);
+              hand.push(deck[randomCard]);
           }
       }
 
