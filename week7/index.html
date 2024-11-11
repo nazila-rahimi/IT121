@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" 
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" 
+            crossorigin="anonymous"></script>
+</head>
+<style>
+    .over { background-color: orange; }
+    .selected { background-color: green; }
+  
+    .odd { background-color: #DDA0DD; } 
+    .even { background-color: #FFC0CB; } 
+</style>
+
+<body>
+    <div id="buttons"></div>
+    <table border='1' id="characterTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th>House</th>
+                <th>Gender</th>
+                <th>Alignment</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+    <button id="reset">Reset</button>
+
+    <script>
+        // list of characters
+        let characters = [
+            {name:"Albus Dumbledore", role:"staff", house:"Gryffindor", gender:"m", alignment:"good"},
+            {name:"Nymphadora Tonks", role:"", house:"Hufflepuff", gender:"f", alignment:"good"},
+            {name:"Ron Weasley", role:"student", house:"Gryffindor", gender:"m", alignment:"good"},
+            {name:"Ginny Weasley", role:"student", house:"Gryffindor", gender:"f", alignment:"good"},
+            {name:"Hermione Granger", role:"student", house:"Gryffindor", gender:"f", alignment:"good"},
+            {name:"Mad-eye Moody", role:"staff", house:"", gender:"m", alignment:"good"},
+            {name:"Prof McGonagall", role:"staff", house:"Gryffindor", gender:"f", alignment:"good"},
+            {name:"Harry Potter", role:"student", house:"Gryffindor", gender:"m", alignment:"good"},
+            {name:"Draco Malfoy", role:"student", house:"Slytherin", gender:"m", alignment:"evil"},
+            {name:"Hagrid", role:"staff", house:"Gryffindor", gender:"m", alignment:"good"},
+            {name:"Luna Lovegood", role:"student", house:"Ravenclaw", gender:"f", alignment:"good"},
+            {name:"Voldemort", role:"", house:"Slytherin", gender:"m", alignment:"evil"},
+            {name:"Bellatrix Lestrange", role:"", house:"Slytherin", gender:"f", alignment:"evil"},
+            {name:"Severus Snape", role:"staff", house:"Slytherin", gender:"m", alignment:"?"}
+        ];
+
+        $(document).ready(function() {
+            // collect unique 'house' values and create buttons for each
+            let uniqueHouses = [...new Set(characters.map(character => character.house).filter(house => house))];
+            uniqueHouses.forEach(house => {
+                $('#buttons').append(`<button class="filter-btn" data-house="${house}">${house}</button>`);
+            });
+
+            // add table row for each character in the dataset
+            characters.forEach(character => {
+                $('#characterTable tbody').append(
+                    `<tr data-house="${character.house}">
+                        <td>${character.name}</td>
+                        <td>${character.role}</td>
+                        <td>${character.house}</td>
+                        <td>${character.gender}</td>
+                        <td>${character.alignment}</td>
+                    </tr>`
+                );
+            });
+
+            // set visible rows to alternating background colors
+            function setAlternatingColors() {
+                $('#characterTable tbody tr:visible').each(function(index) {
+                    $(this).removeClass('odd even')
+                           .addClass(index % 2 === 0 ? 'even' : 'odd');
+                });
+            }
+            setAlternatingColors();
+
+            // add click handler to show only rows matching selected 'house'
+            $('.filter-btn').click(function() {
+                let house = $(this).data('house');
+                $('#characterTable tbody tr').hide().filter(`[data-house="${house}"]`).show();
+                setAlternatingColors();  // update row colors after filtering
+            });
+
+            // add click handler to reset table to original state
+            $('#reset').click(function() {
+                $('#characterTable tbody tr').show();
+                setAlternatingColors();  // update row colors after resetting
+            });
+        });
+    </script>
+</body>
+</html>
