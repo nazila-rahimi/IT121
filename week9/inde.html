@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Drawing Assignment</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="myCanvas" width="500" height="400"></canvas>
+    <script>
+        const canvas = document.getElementById("myCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Line
+        ctx.beginPath();
+        ctx.moveTo(50, 50); // Start point
+        ctx.lineTo(150, 150); // End point
+        ctx.strokeStyle = "blue";
+        ctx.stroke(); // Draws the line
+
+        // Rectangle
+        ctx.beginPath();
+        ctx.fillStyle = "green";
+        ctx.fillRect(200, 50, 100, 50); // Filled rectangle
+        ctx.strokeStyle = "black";
+        ctx.strokeRect(200, 50, 100, 50); // Outline
+
+        // Arc (Circle)
+        ctx.beginPath();
+        ctx.arc(300, 200, 40, 0, Math.PI * 2); // Circle
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.strokeStyle = "black";
+        ctx.stroke();
+
+        // Triangle using closePath
+        ctx.beginPath();
+        ctx.moveTo(100, 300); // Start point
+        ctx.lineTo(150, 350); // Second point
+        ctx.lineTo(50, 350); // Third point
+        ctx.closePath(); // Closes the path
+        ctx.strokeStyle = "purple";
+        ctx.stroke();
+        ctx.fillStyle = "yellow";
+        ctx.fill();
+
+        // Animation: Bouncing Ball
+        let x = 50, y = 50, dx = 2, dy = 2, radius = 15;
+
+        function animateBall() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear canvas
+
+            // Redraw static elements
+            ctx.beginPath();
+            ctx.moveTo(50, 50);
+            ctx.lineTo(150, 150);
+            ctx.strokeStyle = "blue";
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.fillStyle = "green";
+            ctx.fillRect(200, 50, 100, 50);
+            ctx.strokeStyle = "black";
+            ctx.strokeRect(200, 50, 100, 50);
+
+            ctx.beginPath();
+            ctx.arc(300, 200, 40, 0, Math.PI * 2);
+            ctx.fillStyle = "red";
+            ctx.fill();
+            ctx.strokeStyle = "black";
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.moveTo(100, 300);
+            ctx.lineTo(150, 350);
+            ctx.lineTo(50, 350);
+            ctx.closePath();
+            ctx.strokeStyle = "purple";
+            ctx.stroke();
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+
+            // Draw ball
+            ctx.beginPath();
+            ctx.arc(x, y, radius, 0, Math.PI * 2);
+            ctx.fillStyle = "cyan";
+            ctx.fill();
+
+            // Ball movement
+            if (x + dx > canvas.width - radius || x + dx < radius) {
+                dx = -dx;
+            }
+            if (y + dy > canvas.height - radius || y + dy < radius) {
+                dy = -dy;
+            }
+
+            x += dx;
+            y += dy;
+
+            requestAnimationFrame(animateBall); 
+        }
+
+        animateBall();
+    </script>
+</body>
+</html>
+
